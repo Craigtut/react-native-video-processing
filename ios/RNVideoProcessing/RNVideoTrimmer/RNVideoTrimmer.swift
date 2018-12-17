@@ -277,6 +277,12 @@ class RNVideoTrimmer: NSObject {
     let mixComposition = AVMutableComposition()
     let track = mixComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
 
+    // Very specific to my needs
+    var transforms = track.preferredTransform
+    transforms = transforms.concatenating(CGAffineTransform(rotationAngle: CGFloat(90.0 * .pi / 180)))
+    transforms = transforms.concatenating(CGAffineTransform(translationX: 640, y: 0))
+    track.preferredTransform = transforms
+
 
     var outputURL = documentDirectory.appendingPathComponent("output")
     var finalURL = documentDirectory.appendingPathComponent("output")
@@ -297,13 +303,13 @@ class RNVideoTrimmer: NSObject {
 
     let useQuality = getQualityForAsset(quality: quality, asset: firstAsset)
 
-//    print("RNVideoTrimmer passed quality: \(quality). useQuality: \(useQuality)")
+    print("RNVideoTrimmer passed quality: \(quality). useQuality: \(useQuality)")
 
     AVUtilities.reverse(firstAsset, outputURL: outputURL, completion: { [unowned self] (reversedAsset: AVAsset) in
 
 
       let secondAsset = reversedAsset
-
+      
       // Credit: https://www.raywenderlich.com/94404/play-record-merge-videos-ios-swift
       do {
         try track.insertTimeRange(CMTimeRangeMake(kCMTimeZero, firstAsset.duration), of: firstAsset.tracks(withMediaType: AVMediaTypeVideo)[0], at: kCMTimeZero)
