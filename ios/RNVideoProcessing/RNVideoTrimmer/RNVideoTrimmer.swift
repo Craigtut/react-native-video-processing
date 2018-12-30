@@ -276,7 +276,7 @@ class RNVideoTrimmer: NSObject {
 
     let mixComposition = AVMutableComposition()
     let track = mixComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-
+    
     // Very specific to my needs
     var transforms = track.preferredTransform
     transforms = transforms.concatenating(CGAffineTransform(rotationAngle: CGFloat(90.0 * .pi / 180)))
@@ -326,7 +326,7 @@ class RNVideoTrimmer: NSObject {
       }
 
 
-      guard let exportSession = AVAssetExportSession(asset: mixComposition, presetName: useQuality) else {
+      guard let exportSession = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetMediumQuality) else {
         callback(["Error creating AVAssetExportSession", NSNull()])
         return
       }
