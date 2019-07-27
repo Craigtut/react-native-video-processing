@@ -281,10 +281,10 @@ class RNVideoTrimmer: NSObject {
 
     
     // Very specific to my needs
-    var transforms = track.preferredTransform
-    transforms = transforms.concatenating(CGAffineTransform(rotationAngle: CGFloat(90.0 * .pi / 180)))
-    transforms = transforms.concatenating(CGAffineTransform(translationX: 640, y: 0))
-    track.preferredTransform = transforms
+    var transforms = track?.preferredTransform
+    transforms = transforms?.concatenating(CGAffineTransform(rotationAngle: CGFloat(90.0 * .pi / 180)))
+    transforms = transforms?.concatenating(CGAffineTransform(translationX: 640, y: 0))
+    track?.preferredTransform = transforms!
 
 
     var outputURL = documentDirectory.appendingPathComponent("output")
